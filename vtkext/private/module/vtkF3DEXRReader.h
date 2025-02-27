@@ -31,12 +31,27 @@ public:
     return "OpenEXR";
   }
 
+  /**
+   * Read from memory instead of file
+   */
+  void SetMemoryBuffer(const void* buff) override;
+  virtual const void* GetMemoryBuffer() { return this->MemoryBuffer; }
+
+  /**
+   * Specify the in memory image buffer length.
+   */
+  void SetMemoryBufferLength(vtkIdType buflen) override;
+  vtkIdType GetMemoryBufferLength() { return this->MemoryBufferLength; }
+
 protected:
   vtkF3DEXRReader();
   ~vtkF3DEXRReader() override;
 
   void ExecuteInformation() override;
   void ExecuteDataWithInformation(vtkDataObject* out, vtkInformation* outInfo) override;
+
+  const void* MemoryBuffer;
+  vtkIdType MemoryBufferLength;
 
   int GetWidth() const;
   int GetHeight() const;
